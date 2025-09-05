@@ -109,10 +109,10 @@ export function Footer() {
         <div className="py-6 border-t border-neutral-200 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center space-x-6">
             <Link href="/" className="text-xl font-serif font-bold text-black">
-              RARE RABBIT
+              Qissey
             </Link>
             <p className="text-sm text-neutral-600">
-              © 2024 Rare Rabbit. All rights reserved.
+              © 2024 Qissey. All rights reserved.
             </p>
           </div>
 

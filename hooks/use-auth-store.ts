@@ -66,9 +66,10 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       if (data.user) {
         // Create user profile
         const { error: profileError } = await supabase
-          .from('user_profiles')
+          .from('profiles')
           .insert({
             id: data.user.id,
+            email: data.user.email!,
             ...userData,
           });
 
@@ -117,7 +118,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
     try {
       const { error } = await supabase
-        .from('user_profiles')
+        .from('profiles')
         .update(updates)
         .eq('id', user.id);
 
@@ -141,7 +142,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
     try {
       const { data, error } = await supabase
-        .from('user_profiles')
+        .from('profiles')
         .select('*')
         .eq('id', user.id)
         .single();

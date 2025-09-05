@@ -1,11 +1,11 @@
 import { Metadata } from 'next';
-import { CheckoutPageContent } from '@/components/checkout/checkout-page-content';
+import { RazorpayCheckout } from '@/components/checkout/razorpay-checkout';
 
 export const metadata: Metadata = {
-  title: 'Checkout - Rare Rabbit',
-  description: 'Complete your purchase securely.',
+  title: 'Checkout - Qissey',
+  description: 'Complete your purchase securely with our enhanced checkout experience.',
 };
 
 export default function CheckoutPage() {
-  return <CheckoutPageContent />;
+  return <RazorpayCheckout />;
 }

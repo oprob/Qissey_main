@@ -150,7 +150,7 @@ export function HeroSection() {
                       className="group focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-lg p-4"
                     >
                       <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-serif font-bold text-white drop-shadow-2xl group-hover:scale-105 transition-transform duration-300">
-                        Qissey
+                        QISSEY
                       </h1>
                       <motion.div
                         initial={{ opacity: 0, y: 10 }}
@@ -164,18 +164,7 @@ export function HeroSection() {
                   </motion.div>
                   
                   {/* Scroll Hint */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 1.5 }}
-                    className="absolute bottom-8 sm:bottom-12 left-1/2 transform -translate-x-1/2 z-20"
-                    style={{ opacity: scrollY > 50 ? 0 : 1 - scrollY / 50 }}
-                  >
-                    <div className="text-white text-xs sm:text-sm font-medium flex flex-col items-center space-y-2 sm:space-y-3">
-                      <span className="tracking-wide uppercase">Discover Fashion</span>
-                      <div className="w-px h-8 sm:h-12 bg-white/60 animate-pulse" />
-                    </div>
-                  </motion.div>
+
                 </div>
               </div>
             </div>
@@ -201,7 +190,7 @@ export function HeroSection() {
               transition: 'color 0.3s ease-in-out'
             }}
           >
-            Qissey
+            QISSEY
           </h1>
         </div>
       )}
@@ -244,14 +233,7 @@ export function HeroSection() {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 right-8 z-10">
-        <div className="text-white text-sm opacity-70">
-          <div className="flex items-center space-x-2">
-            <span>Scroll to explore</span>
-            <div className="w-px h-8 bg-white/50 animate-pulse" />
-          </div>
-        </div>
-      </div>
+
     </section>
   );
 }

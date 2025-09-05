@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { Search, ShoppingBag, User, Menu, X, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -29,14 +29,24 @@ export function Header() {
   const [isMobile, setIsMobile] = useState(false);
   
   const router = useRouter();
+  const pathname = usePathname();
   const { totalItems, isOpen: isCartOpen, openCart } = useCartStore();
   const { user, isLoading } = useAuthStore();
+  
+  // Check if we're on the home page
+  const isHomePage = pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       setScrollY(currentScrollY);
-      setIsScrolled(currentScrollY > 10);
+      // For home page: show navbar when scrolled past hero section
+      // For other pages: show navbar immediately with slight scroll
+      if (isHomePage) {
+        setIsScrolled(currentScrollY > window.innerHeight * 0.8);
+      } else {
+        setIsScrolled(currentScrollY > 10);
+      }
     };
 
     const handleResize = () => {
@@ -72,17 +82,31 @@ export function Header() {
   return (
     <header
       className={cn(
-        'sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 transition-all duration-200',
-        isScrolled && 'shadow-sm'
+        'fixed top-0 z-50 w-full transition-all duration-500 ease-out',
+        // Home page: transparent when not scrolled, white background when scrolled
+        // Other pages: always white background
+        isHomePage 
+          ? (isScrolled 
+              ? 'bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 shadow-sm border-b border-neutral-200' 
+              : 'bg-transparent')
+          : 'bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 shadow-sm border-b border-neutral-200'
       )}
     >
       <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
+        <div className={cn(
+          'flex items-center justify-between transition-all duration-500',
+          isScrolled ? 'h-16' : 'h-20'
+        )}>
           {/* Mobile menu button */}
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden"
+            className={cn(
+              'md:hidden transition-colors duration-300',
+              isHomePage 
+                ? (isScrolled ? 'text-black hover:text-neutral-700' : 'text-white hover:text-neutral-300')
+                : 'text-black hover:text-neutral-700'
+            )}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -90,21 +114,19 @@ export function Header() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <motion.div 
-              className="text-2xl font-serif font-bold text-black"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ 
-                opacity: showNavbarLogo ? 1 : 0,
-                scale: showNavbarLogo ? 1 : 0.8
-              }}
-              transition={{ 
-                duration: 0.5, 
-                ease: "easeOut",
-                delay: showNavbarLogo ? 0.2 : 0 // Slight delay when appearing
-              }}
+            <div 
+              className={cn(
+                'font-serif font-bold transition-all duration-500',
+                isHomePage 
+                  ? (showNavbarLogo ? 'opacity-100' : 'opacity-0')
+                  : 'opacity-100',
+                isHomePage 
+                  ? (isScrolled ? 'text-2xl text-black' : 'text-3xl text-white drop-shadow-lg')
+                  : 'text-2xl text-black'
+              )}
             >
-              Qissey
-            </motion.div>
+              QISSEY
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -113,7 +135,14 @@ export function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-sm font-medium text-neutral-700 hover:text-black transition-colors"
+                className={cn(
+                  'text-sm font-medium transition-colors duration-300 uppercase tracking-wide',
+                  isHomePage 
+                    ? (isScrolled 
+                        ? 'text-neutral-700 hover:text-black' 
+                        : 'text-white/90 hover:text-white drop-shadow-sm')
+                    : 'text-neutral-700 hover:text-black'
+                )}
               >
                 {item.name}
               </Link>
@@ -127,14 +156,33 @@ export function Header() {
               variant="ghost"
               size="icon"
               onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="hidden sm:flex"
+              className={cn(
+                'hidden sm:flex transition-colors duration-300',
+                isHomePage 
+                  ? (isScrolled 
+                      ? 'text-neutral-700 hover:text-black' 
+                      : 'text-white/90 hover:text-white')
+                  : 'text-neutral-700 hover:text-black'
+              )}
             >
               <Search className="h-5 w-5" />
             </Button>
 
             {/* Wishlist */}
             {user && (
-              <Button variant="ghost" size="icon" asChild>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                asChild 
+                className={cn(
+                  'transition-colors duration-300',
+                  isHomePage 
+                    ? (isScrolled 
+                        ? 'text-neutral-700 hover:text-black' 
+                        : 'text-white/90 hover:text-white')
+                    : 'text-neutral-700 hover:text-black'
+                )}
+              >
                 <Link href="/wishlist">
                   <Heart className="h-5 w-5" />
                 </Link>
@@ -142,7 +190,19 @@ export function Header() {
             )}
 
             {/* Account */}
-            <Button variant="ghost" size="icon" asChild>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              asChild 
+              className={cn(
+                'transition-colors duration-300',
+                isHomePage 
+                  ? (isScrolled 
+                      ? 'text-neutral-700 hover:text-black' 
+                      : 'text-white/90 hover:text-white')
+                  : 'text-neutral-700 hover:text-black'
+              )}
+            >
               <Link href={user ? "/account" : "/auth/login"}>
                 <User className="h-5 w-5" />
               </Link>
@@ -152,16 +212,40 @@ export function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className="relative"
+              className={cn(
+                'relative transition-colors duration-300',
+                isHomePage 
+                  ? (isScrolled 
+                      ? 'text-neutral-700 hover:text-black' 
+                      : 'text-white/90 hover:text-white')
+                  : 'text-neutral-700 hover:text-black'
+              )}
               onClick={openCart}
             >
               <ShoppingBag className="h-5 w-5" />
               {totalItems > 0 && (
-                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black text-xs text-white">
+                <span className={cn(
+                  'absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full text-xs text-white transition-colors duration-300',
+                  isHomePage 
+                    ? (isScrolled ? 'bg-black' : 'bg-white/20 backdrop-blur-sm')
+                    : 'bg-black'
+                )}>
                   {totalItems}
                 </span>
               )}
             </Button>
+            
+            {/* Menu text */}
+            <div className={cn(
+              'hidden md:block text-sm font-medium uppercase tracking-widest transition-all duration-300 ml-4',
+              isHomePage 
+                ? (isScrolled 
+                    ? 'text-neutral-700' 
+                    : 'text-white/90')
+                : 'text-neutral-700'
+            )}>
+              MENU
+            </div>
           </div>
         </div>
 

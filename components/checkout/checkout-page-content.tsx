@@ -30,12 +30,14 @@ const checkoutSchema = z.object({
 type CheckoutFormData = z.infer<typeof checkoutSchema>;
 
 export function CheckoutPageContent() {
+  const { user } = useAuthStore();
   const [isProcessing, setIsProcessing] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  const [guestEmail, setGuestEmail] = useState('');
+  const [showGuestForm, setShowGuestForm] = useState(!user);
   
   const router = useRouter();
   const { items, totalPrice, clearCart } = useCartStore();
-  const { user } = useAuthStore();
 
   const {
     register,

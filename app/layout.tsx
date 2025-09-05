@@ -18,12 +18,12 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: 'Rare Rabbit - Premium Fashion & Lifestyle',
+  title: 'Qissey - Premium Fashion & Lifestyle',
   description: 'Discover the finest collection of premium fashion and lifestyle products. Elegant designs, superior quality, and timeless style.',
   keywords: 'fashion, premium clothing, lifestyle, men fashion, women fashion, accessories',
-  authors: [{ name: 'Rare Rabbit' }],
-  creator: 'Rare Rabbit',
-  publisher: 'Rare Rabbit',
+  authors: [{ name: 'Qissey' }],
+  creator: 'Qissey',
+  publisher: 'Qissey',
   formatDetection: {
     email: false,
     address: false,
@@ -34,16 +34,16 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Rare Rabbit - Premium Fashion & Lifestyle',
+    title: 'Qissey - Premium Fashion & Lifestyle',
     description: 'Discover the finest collection of premium fashion and lifestyle products.',
     url: 'https://rarerabbit.com',
-    siteName: 'Rare Rabbit',
+    siteName: 'Qissey',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Rare Rabbit - Premium Fashion',
+        alt: 'Qissey - Premium Fashion',
       },
     ],
     locale: 'en_US',
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Rare Rabbit - Premium Fashion & Lifestyle',
+    title: 'Qissey - Premium Fashion & Lifestyle',
     description: 'Discover the finest collection of premium fashion and lifestyle products.',
     images: ['/twitter-image.jpg'],
     creator: '@rarerabbit',
