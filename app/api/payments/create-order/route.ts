@@ -4,6 +4,9 @@ import { createClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 import { razorpay } from '@/lib/razorpay';
 
+// Force Node.js runtime for Razorpay SDK compatibility
+export const runtime = "nodejs";
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 

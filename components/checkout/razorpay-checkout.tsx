@@ -88,6 +88,12 @@ export function RazorpayCheckout() {
       return;
     }
 
+    if (!process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID) {
+      toast.error('Payment system configuration error. Please contact support.');
+      console.error('NEXT_PUBLIC_RAZORPAY_KEY_ID is not configured');
+      return;
+    }
+
     setIsProcessing(true);
 
     try {
@@ -177,7 +183,7 @@ export function RazorpayCheckout() {
 
       // Initialize Razorpay
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_R7G4LHgAyExxBP',
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: orderData.order.amount,
         currency: orderData.order.currency,
         name: 'Qissey',
