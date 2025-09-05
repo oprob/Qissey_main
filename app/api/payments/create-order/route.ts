@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { createClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
-import { razorpay } from '@/lib/razorpay';
 
 // Force Node.js runtime for Razorpay SDK compatibility
 export const runtime = "nodejs";
@@ -20,12 +19,13 @@ const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
 export async function POST(request: NextRequest) {
   try {
     console.log('=== Create Order API Called ===');
-    console.log('Razorpay Key ID present:', !!process.env.RAZORPAY_KEY_ID);
-    console.log('Razorpay Key Secret present:', !!process.env.RAZORPAY_KEY_SECRET);
+    
+    // Dynamically import Razorpay to prevent bundling in frontend
+    const { razorpay } = await import('@/lib/razorpay');
     
     // Get authorization header
     const authHeader = request.headers.get('authorization');
-    console.log('Auth header:', authHeader);
+    console.log('Auth header:', authHeader ? 'Present' : 'Missing');
 
     let authenticatedUser = null;
 

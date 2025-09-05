@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { razorpay } from '@/lib/razorpay';
 
+// Force Node.js runtime for Razorpay SDK
+export const runtime = "nodejs";
+
 export async function GET(request: NextRequest) {
   try {
     console.log('Testing Razorpay configuration...');
