@@ -10,6 +10,12 @@ export type Collection = Database['public']['Tables']['collections']['Row'];
 export type CartItem = Database['public']['Tables']['cart_items']['Row'] & {
   products: Product;
   product_variants?: Database['public']['Tables']['product_variants']['Row'];
+  // Computed properties for convenience
+  price?: number;
+  name?: string;
+  size?: string;
+  color?: string;
+  sku?: string;
 };
 
 export type WishlistItem = Database['public']['Tables']['wishlist_items']['Row'] & {

@@ -62,6 +62,12 @@ export const useCartStore = create<CartStore>()(
               updated_at: new Date().toISOString(),
               products: {} as Product, // This would need to be fetched
               product_variants: item.variant_id ? undefined : undefined,
+              // Add computed properties with safe defaults
+              price: 100, // Default price for guest cart
+              name: `Product ${item.product_id}`,
+              size: undefined,
+              color: undefined,
+              sku: `SKU-${item.variant_id || item.product_id}`,
             };
             set({ items: [...currentItems, newItem] });
           }
@@ -236,7 +242,17 @@ export const useCartStore = create<CartStore>()(
 
           if (error) throw error;
 
-          set({ items: data || [] });
+          // Enhance cart items with computed properties
+          const enhancedItems = (data || []).map(item => ({
+            ...item,
+            price: item.product_variants?.price || item.products?.price || 0,
+            name: item.products?.name || `Product ${item.product_id}`,
+            size: item.product_variants?.option1 || undefined,
+            color: item.product_variants?.option2 || undefined,
+            sku: item.product_variants?.sku || item.products?.sku || `SKU-${item.variant_id || item.product_id}`,
+          }));
+
+          set({ items: enhancedItems });
           get().calculateTotals();
         } catch (error) {
           console.error('Error fetching cart:', error);

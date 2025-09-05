@@ -106,15 +106,32 @@ export function RazorpayCheckout() {
       };
 
       // Prepare cart items for order
-      const cartItems = items.map(item => ({
-        product_id: item.product_id,
-        variant_id: item.variant_id,
-        quantity: item.quantity,
-        price: item.price || 100, // Default price if not available
-        product_name: item.name || `Product ${item.product_id}`,
-        variant_title: item.size && item.color ? `${item.size} / ${item.color}` : 'Standard',
-        sku: item.sku || `SKU-${item.variant_id}`
-      }));
+      const cartItems = items.map(item => {
+        // Get price from variant first, then product, with fallback
+        const itemPrice = item.product_variants?.price || item.products?.price || 100;
+        
+        // Get product name with fallback
+        const productName = item.products?.name || `Product ${item.product_id}`;
+        
+        // Get variant title with fallback
+        const variantTitle = item.product_variants?.title || 
+          (item.product_variants?.option1 && item.product_variants?.option2 ? 
+            `${item.product_variants.option1} / ${item.product_variants.option2}` : 
+            'Standard');
+        
+        // Get SKU with fallback
+        const itemSku = item.product_variants?.sku || item.products?.sku || `SKU-${item.variant_id || item.product_id}`;
+
+        return {
+          product_id: item.product_id,
+          variant_id: item.variant_id,
+          quantity: item.quantity,
+          price: itemPrice,
+          product_name: productName,
+          variant_title: variantTitle,
+          sku: itemSku
+        };
+      });
 
       // Get auth token
       const { data: { session } } = await supabase.auth.getSession();
