@@ -13,12 +13,6 @@ export default function HomePage() {
       {/* Hero Section */}
       <HeroSection />
 
-      {/* Early Access Banner */}
-      <PromoBanner />
-
-      {/* USP Section - Featured prominently */}
-      <USPSection />
-
       {/* Featured Collections */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
@@ -53,6 +47,9 @@ export default function HomePage() {
 
       {/* Testimonials */}
       <TestimonialsSection />
+
+      {/* USP Section - Custom sizing feature */}
+      <USPSection />
     </div>
   );
 }

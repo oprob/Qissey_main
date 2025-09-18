@@ -76,54 +76,62 @@ export function FeaturedCollections() {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="flex flex-col gap-8">
         {Array.from({ length: 3 }).map((_, i) => (
-          <CollectionCardSkeleton key={i} />
+          <div key={i} className="h-56 md:h-72 lg:h-80 w-full bg-neutral-200 animate-pulse rounded-2xl shadow-lg" />
         ))}
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="flex flex-col gap-8">
       {collections.map((collection, index) => (
         <motion.div
           key={collection.id}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: index * 0.1 }}
-          className="group"
+          transition={{ duration: 0.8, delay: index * 0.2 }}
+          className="group relative"
         >
-          <Link href={`/collections/${collection.slug}`}>
-            <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-neutral-100 mb-4">
+          <Link href={`/collections/${collection.slug}`} className="block">
+            <div className="relative h-56 md:h-72 lg:h-80 w-full overflow-hidden rounded-2xl bg-neutral-100 shadow-lg">
               <Image
                 src={collection.image_url || fallbackCollections[index % fallbackCollections.length].image_url}
                 alt={collection.name}
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover transition-all duration-1000 group-hover:scale-110"
+                sizes="100vw"
               />
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300" />
               
-              {/* Overlay Content */}
-              <div className="absolute inset-0 flex items-end p-6">
-                <div className="text-white">
-                  <h3 className="text-xl font-serif font-semibold mb-2">
+              {/* Gradient Overlays for depth */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent group-hover:from-black/70 group-hover:via-black/30 transition-all duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              {/* Decorative elements */}
+              <div className="absolute top-6 left-6 w-16 h-px bg-white/60 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700 delay-200" />
+              <div className="absolute bottom-6 right-6 w-16 h-px bg-white/60 transform origin-right scale-x-0 group-hover:scale-x-100 transition-transform duration-700 delay-300" />
+              
+              {/* Center Title with enhanced styling */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center transform transition-all duration-500 group-hover:-translate-y-2">
+                  <div className="mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300">
+                    <div className="w-12 h-px bg-white/80 mx-auto mb-4" />
+                  </div>
+                  <h3 className="text-3xl md:text-4xl lg:text-5xl font-serif font-light text-white tracking-wide transition-all duration-500 group-hover:text-shadow-lg group-hover:tracking-wider">
                     {collection.name}
                   </h3>
-                  <p className="text-sm opacity-90 mb-4">
-                    {collection.description}
-                  </p>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    className="bg-white text-black hover:bg-neutral-100 group-hover:bg-white group-hover:text-black"
-                  >
-                    Explore Collection
-                    <ArrowRight className="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1" />
-                  </Button>
+                  <div className="mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300">
+                    <div className="w-12 h-px bg-white/80 mx-auto mt-4" />
+                  </div>
                 </div>
               </div>
+              
+              {/* Subtle corner accents */}
+              <div className="absolute top-0 left-0 w-6 h-6 border-l-2 border-t-2 border-white/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-400" />
+              <div className="absolute top-0 right-0 w-6 h-6 border-r-2 border-t-2 border-white/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-500" />
+              <div className="absolute bottom-0 left-0 w-6 h-6 border-l-2 border-b-2 border-white/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-600" />
+              <div className="absolute bottom-0 right-0 w-6 h-6 border-r-2 border-b-2 border-white/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-700" />
             </div>
           </Link>
         </motion.div>
